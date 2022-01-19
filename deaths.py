@@ -58,6 +58,20 @@ ax.set_ylabel("Deaths")
 ax.set_xlabel("Date")
 plt.show()
 
+# FIG 3
+start=today-datetime.timedelta(weeks=4)
+end=today
+MA7=usa_rolling7.loc[start:]
+fig = plt.figure(figsize=(15,7),dpi=200)
+x1=usa['total_deaths'].loc[start:].diff(1)
+ax=sns.lineplot(data=x1,x=x1.index,y=x1,color='#960056',lw=1.43,alpha=0.75, label='Daily Deaths')
+ax=sns.lineplot(data=MA7, x=MA7.index,y=MA7,lw=2.66,color='#ff000d',label='7 Day Average (Deaths)')
+ax.set_title('4 Week Analysis ~ COVID-19 USA Daily Deaths')
+ax.set_facecolor('xkcd:sea green')
+ax.set_ylabel("Deaths")
+ax.set_xlabel("Date")
+plt.show()
+
 # fig.savefig(f'{today}_covid19_deaths.png',dpi=165, bbox_inches='tight')
 
 
