@@ -2,9 +2,11 @@ import pandas as pd
 import datetime as datetime
 from datetime import datetime as dt
 import os
+
 today=dt.today()
 
 def usa_fetch():
+    start_time=dt.now()
     if os.path.exists(f"usa_{today.strftime('%b-%d-%Y')}.csv"):
         print(f"File ~ usa_{today.strftime('%b-%d-%Y')}.csv ~ Already Exists")
     else:
@@ -14,6 +16,8 @@ def usa_fetch():
         df = pd.read_csv(data_path)
         df.to_csv(f"usa_{today.strftime('%b-%d-%Y')}.csv")
         print(f"CREATED: usa_{today.strftime('%b-%d-%Y')}.csv")
-
+        end_time=dt.now()
+        final_time=end_time-start_time
+        print("Runtime: ",round(final_time,2), " seconds")
 
 

@@ -15,6 +15,7 @@ print("LOCAL FETCH COMPLETE.")
 
 usa=df[df['location'] == 'United States']
 
+usa_rolling7=usa['total_cases'].diff(1).fillna(0).rolling(7).mean()
 usa_daily_cases=usa['total_cases'].diff(1).fillna(0)
 yesterday_cases=usa_daily_cases[-1]
 
@@ -33,5 +34,24 @@ print(f"Yesterday's cases {today}: ",f"{yesterday_cases:,}\n")
 print("Infections this week:")
 print(usa_daily_cases.tail(14),"\n")
 
+print("7-Day MA:")
+print(usa_rolling7.tail(14),"\n")
+
 
 print("********************************************************************************")
+
+#FIG 1
+start=today-datetime.timedelta(weeks=12)
+end=today
+MA7=usa_rolling7.loc[start:]
+fig = plt.figure(figsize=(15,7),dpi=200)
+plt.ticklabel_format(style='plain', axis='y')
+
+x1=usa_daily_cases.loc[start:]
+ax=sns.lineplot(data=x1,x=x1.index,y=x1,color='#960056',label='Daily Cases')
+ax=sns.lineplot(data=MA7, x=MA7.index,y=MA7,color='#ff000d',label='7 Day Case Average')
+ax.set_title('3 Months: COVID-19 USA Daily Cases')
+ax.set_facecolor('xkcd:aquamarine')
+ax.set_ylabel("Cases")
+ax.set_xlabel("Date")
+plt.show()
